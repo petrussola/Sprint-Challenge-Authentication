@@ -11,6 +11,7 @@ const baseEndPoint = "http://localhost:3300/api";
 function App() {
   // SLICES OF STATE
   const [isRegistered, setIsRegistered] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // HANDLERS
 
@@ -26,7 +27,14 @@ function App() {
   }
 
   function onLoginHandler(formValues) {
-    console.log(formValues);
+    axios
+      .post(`${baseEndPoint}/auth/login`, formValues)
+      .then(data => {
+        setIsLoggedIn(true);
+      })
+      .catch(error => {
+        debugger;
+      });
   }
 
   return (
