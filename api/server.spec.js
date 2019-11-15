@@ -26,7 +26,21 @@ describe("server", () => {
     const response = await request(server)
       .post("/api/auth/register")
       .send(testUser1);
-    console.log(response.body);
     expect(response.body.username).toEqual(testUser1.username);
   });
 });
+
+describe('POST login endpoint', () => {
+  test("should return an OK 200", async () => {
+    const testUser = { username: "mama", password: "1234" };
+    const response = await request(server)
+      .post("/api/auth/login")
+      .send(testUser);
+    expect(response.status).toEqual(200);
+  });
+  test('should return a welcome message', async () => {
+    const testUser1 = { username: "pere", password: "1234" };
+    const response = await request(server).post('/api/auth/login').send(testUser1);
+    expect(response.body.message).toBe('Welcome, pere');
+  });
+})
