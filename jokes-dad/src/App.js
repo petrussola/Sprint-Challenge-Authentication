@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Route } from "react-router-dom";
+import { Route, withRouter } from "react-router-dom";
 
 // COMPONENTS
 import RegistrationForm from "./components/RegistrationForm";
@@ -11,7 +11,7 @@ import Jokes from "./components/Jokes";
 
 const baseEndPoint = "http://localhost:3300/api";
 
-function App() {
+function App(props) {
   // SLICES OF STATE
   const [isRegistered, setIsRegistered] = useState(false);
   const [jokes, setJokes] = useState([]);
@@ -33,7 +33,7 @@ function App() {
     axios
       .post(`${baseEndPoint}/auth/login`, formValues)
       .then(data => {
-        debugger;
+        props.history.push("/jokes");
       })
       .catch(error => {
         debugger;
@@ -62,4 +62,4 @@ function App() {
   );
 }
 
-export default App;
+export default withRouter(App);
