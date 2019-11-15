@@ -4,6 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const session = require("express-session");
+require("dotenv").config();
 
 // IMPORT HELPERS
 

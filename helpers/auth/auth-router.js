@@ -27,17 +27,16 @@ router.post("/login", (req, res) => {
   Users.findBy({ username })
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
+        req.session.user = user;
         res.status(200).json({ message: `Welcome, ${username}` });
       } else {
         res.status(400).json({ message: `Wrong credentials` });
       }
     })
     .catch(error => {
-      res
-        .status(500)
-        .json({
-          message: `There was an error logging you in: ${error.message}`
-        });
+      res.status(500).json({
+        message: `There was an error logging you in: ${error.message}`
+      });
     });
 });
 
