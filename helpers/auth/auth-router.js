@@ -28,6 +28,7 @@ router.post("/login", (req, res) => {
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
         req.session.user = user;
+        console.log(req.session.id);
         res.status(200).json({ message: `Welcome, ${username}` });
       } else {
         res.status(400).json({ message: `Wrong credentials` });
@@ -58,6 +59,18 @@ router.get("/logout", (req, res) => {
 
 router.get("/", (req, res) => {
   res.status(200).json({ api: "up" });
+});
+
+router.get("/cookie", (req, res) => {
+  const options = {
+    secure: false,
+    httpOnly: false,
+    domain: "localhost"
+  };
+  res
+    .cookie("cookieName", "cookieValue", options)
+    .status(200)
+    .send("cookie sent");
 });
 
 module.exports = router;

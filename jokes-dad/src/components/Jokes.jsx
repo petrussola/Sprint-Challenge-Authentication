@@ -1,19 +1,31 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
-const baseEndPoint = "http://localhost:3300/api";
+axios.defaults.withCredentials = true;
+const baseEndPoint = "http://localhost:3000/api";
 
 export default function Jokes(props) {
-  useEffect(() => {
+  const [jokes, setJokes] = useState([]);
+
+  function fetchJokes() {
     axios
-      .get(`${baseEndPoint}/jokes`)
-      .then(data => {
-        debugger;
+      .get(`${baseEndPoint}/jokes`, { withCredentials: true })
+      .then(res => {
+        setJokes(res.data);
       })
       .catch(error => {
-        debugger;
+        console.log(error);
       });
-  }, []);
+  }
 
-  return <div>Hello from jokes component</div>;
+  return (
+    <div>
+      <button onClick={fetchJokes}>Fetch jokes</button>
+      {jokes.length > 0 ? (
+        <div>jokes fetched correctly</div>
+      ) : (
+        <div>error fetching</div>
+      )}
+    </div>
+  );
 }

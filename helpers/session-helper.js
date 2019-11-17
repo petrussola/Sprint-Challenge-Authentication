@@ -2,11 +2,12 @@
 
 const sessionConfig = {
   name: "user-session",
-  secret: process.env.SECRET_SESSION,
+  secret: 'thisisthemostsecretevercreatedintheworld',
   cookie: {
-    maxAge: 1000 * 30,
+    maxAge: 1000 * 60 * 60,
     secure: false,
-    httpOnly: true
+    httpOnly: false,
+    sameSite: 'lax'
   },
   resave: false,
   saveUninitialized: false

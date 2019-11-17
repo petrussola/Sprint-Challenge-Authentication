@@ -9,7 +9,8 @@ import RegistrationWelcomeMessage from "./components/RegistrationWelcomeMessage"
 import Logout from "./components/Logout";
 import Jokes from "./components/Jokes";
 
-const baseEndPoint = "http://localhost:3300/api";
+axios.defaults.withCredentials = true;
+const baseEndPoint = "http://localhost:3000/api";
 
 function App(props) {
   // SLICES OF STATE
@@ -31,6 +32,12 @@ function App(props) {
 
   function onLoginHandler(formValues) {
     axios
+      // ({
+      //   method: "post",
+      //   url: `${baseEndPoint}/auth/login`,
+      //   withCredentials: true,
+      //   data: formValues
+      // })
       .post(`${baseEndPoint}/auth/login`, formValues)
       .then(data => {
         props.history.push("/jokes");
@@ -42,12 +49,23 @@ function App(props) {
 
   function logoutHandler() {
     axios
-      .get(`${baseEndPoint}/auth/logout`)
+      .get(`${baseEndPoint}/auth/logout`, {withCredentials: true})
       .then(data => {
-        debugger;
+        console.log(data);
       })
       .catch(error => {
-        debugger;
+        console.log(error);
+      });
+  }
+
+  function getCookieHandler() {
+    axios
+      .get("http://localhost:3000/cookie", { withCredentials: true })
+      .then(data => {
+        console.log(data);
+      })
+      .catch(error => {
+        console.log(error);
       });
   }
 
@@ -58,6 +76,8 @@ function App(props) {
       <LoginForm onLoginHandler={onLoginHandler} />
       {/* <Logout isLoggedIn={isLoggedIn} logoutHandler={logoutHandler} /> */}
       <Route path="/jokes" component={Jokes} />
+      <button onClick={getCookieHandler}>Get cookie</button>
+      <button onClick={logoutHandler}>Logout</button>
     </div>
   );
 }
